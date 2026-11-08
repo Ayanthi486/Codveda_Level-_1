@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Items List</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codveda Level 2 - MySQL Items App</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>My Items List</h1>
-    <div id="loading" class="status-msg">Loading items...</div>
-    <div id="error" class="status-msg error-msg" style="display: none;"></div>
-    <div id="items-container" class="items-list"></div>
-  </div>
 
-  <script src="script.js"></script>
+    <div class="container">
+        <h1>Items Management App</h1>
+
+        <div class="form-container">
+            <input type="text" id="item-input" placeholder="Enter item name..." />
+            <button onclick="addItem()">Add Item</button>
+        </div>
+
+        <ul id="item-list"></ul>
+    </div>
+    <script src="Script.js"></script>
 </body>
 </html>

@@ -1,26 +1,47 @@
 const express = require('express');
+const mysql = require('mysql2');
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 app.use(express.static('public'));
 
-let items = [
-    { id: 1, name: 'Item One' },
-    { id: 2, name: 'Item Two' }
-];
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',     
+    password: '0714159010sssA&',
+    database: 'codveda_db'
+});
+
+db.connect((err) => {
+    if (err) {
+        console.error('Database connection failed: ' + err.stack);
+        return;
+    }
+    console.log('Connected to MySQL Database successfully!');
+});
 
 app.get('/api/items', (req, res) => {
-    res.json(items);
+    const query = 'SELECT * FROM items';
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(results);
+    });
 });
 
 app.post('/api/items', (req, res) => {
-    const newItem = {
-        id: items.length + 1,
-        name: req.body.name
-    };
-    items.push(newItem);
-    res.status(201).json(newItem);
+    const itemName = req.body.name;
+    const query = 'INSERT INTO items (name) VALUES (?)';
+    
+    db.query(query, [itemName], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.status(201).json({ id: result.insertId, name: itemName });
+    });
 });
 
 app.listen(PORT, () => {
